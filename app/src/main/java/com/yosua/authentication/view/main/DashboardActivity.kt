@@ -9,7 +9,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.yosua.authentication.MainActivity
 import com.yosua.authentication.databinding.ActivityDashboardBinding
 import com.yosua.authentication.model.Result
+import com.yosua.authentication.model.remote.response.ListStoryItem
 import com.yosua.authentication.view.ViewModelFactory
+import com.yosua.authentication.view.detail.DetailActivity
 import com.yosua.authentication.view.main.adapter.StoryAdapter
 
 @Suppress("SENSELESS_COMPARISON")
@@ -39,7 +41,10 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
-        storyAdapter = StoryAdapter(emptyList())
+        storyAdapter = StoryAdapter(emptyList()) { story ->
+            onStoryClicked(story)
+        }
+
         binding.rvStory.apply {
             layoutManager = LinearLayoutManager(this@DashboardActivity)
             setHasFixedSize(true)
@@ -55,7 +60,9 @@ class DashboardActivity : AppCompatActivity() {
                 }
 
                 is Result.Success -> {
-                    storyAdapter = StoryAdapter(result.data.listStory.filterNotNull())
+                    storyAdapter = StoryAdapter(result.data.listStory.filterNotNull()) {story ->
+                        onStoryClicked(story)
+                    }
                     binding.rvStory.adapter = storyAdapter
                 }
 
@@ -64,5 +71,12 @@ class DashboardActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    private fun onStoryClicked(story: ListStoryItem){
+        val intent = Intent(this, DetailActivity::class.java).apply {
+            putExtra("storyId", story.id)
+        }
+        startActivity(intent)
     }
 }

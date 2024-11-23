@@ -3,10 +3,13 @@ package com.yosua.authentication.model
 import com.yosua.authentication.model.pref.UserPreference
 import com.yosua.authentication.model.remote.network.ApiService
 import com.yosua.authentication.model.remote.response.AllStoryResponse
+import com.yosua.authentication.model.remote.response.DetailResponse
 import com.yosua.authentication.model.remote.response.LoginResponse
 import com.yosua.authentication.model.remote.response.LoginResult
 import com.yosua.authentication.model.remote.response.RegisterResponse
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
+import retrofit2.Response
 
 class AppRepository private constructor(
     private val apiService : ApiService,
@@ -43,6 +46,20 @@ class AppRepository private constructor(
             Result.Success(response)
         } catch (e: Exception){
             Result.Error(e.message ?: "Terjadi error")
+        }
+    }
+
+    suspend fun getStories(storyId: String): Result<DetailResponse>{
+        return try {
+            val token = userPref.getSession().first().token
+            val response: Response<DetailResponse> = apiService.getStories(storyId, "Bearer $token")
+            if (response.isSuccessful) {
+                Result.Success(response.body()!!)
+            } else {
+                Result.Error("Gagal memuat detail cerita: ${response.message()}")
+            }
+        } catch (e: Exception){
+            Result.Error("Error: ${e.message}")
         }
     }
 
