@@ -10,6 +10,7 @@ import com.yosua.authentication.databinding.ActivityDetailBinding
 import com.yosua.authentication.model.Result
 import com.yosua.authentication.view.ViewModelFactory
 
+@Suppress("DEPRECATION")
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding : ActivityDetailBinding
 
@@ -45,8 +46,8 @@ class DetailActivity : AppCompatActivity() {
 
                 is Result.Success -> {
                     val story = result.data.story
-                    binding.tvPerson.text = story?.name
-                    binding.tvDescription.text = story?.description
+                    binding.tvPerson.text = story.name
+                    binding.tvDescription.text = story.description
                     Glide.with(this@DetailActivity)
                         .load(story?.photoUrl)
                         .into(binding.imageView)
