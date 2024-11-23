@@ -39,6 +39,7 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun setupRecyclerView() {
+        storyAdapter = StoryAdapter(emptyList())
         binding.rvStory.apply {
             layoutManager = LinearLayoutManager(this@DashboardActivity)
             setHasFixedSize(true)
