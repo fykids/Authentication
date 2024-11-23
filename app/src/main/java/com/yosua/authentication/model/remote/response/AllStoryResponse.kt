@@ -1,43 +1,39 @@
 package com.yosua.authentication.model.remote.response
 
-import kotlinx.parcelize.Parcelize
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 
-@Parcelize
 data class AllStoryResponse(
 
 	@field:SerializedName("listStory")
-	val listStory: List<ListStoryItem>,
+	val listStory: List<ListStoryItem?> = emptyList(),
 
 	@field:SerializedName("error")
-	val error: Boolean,
+	val error: Boolean? = null,
 
 	@field:SerializedName("message")
-	val message: String
-) : Parcelable
+	val message: String? = null
+)
 
-@Parcelize
 data class ListStoryItem(
 
 	@field:SerializedName("photoUrl")
-	val photoUrl: String,
+	val photoUrl: String? = null,
 
 	@field:SerializedName("createdAt")
-	val createdAt: String,
+	val createdAt: String? = null,
 
 	@field:SerializedName("name")
-	val name: String,
+	val name: String? = null,
 
 	@field:SerializedName("description")
-	val description: String,
+	val description: String? = null,
 
 	@field:SerializedName("lon")
-	val lon: Float,
+	val lon: Double? = null,
 
 	@field:SerializedName("id")
-	val id: String,
+	val id: String? = null,
 
 	@field:SerializedName("lat")
-	val lat: Float
-) : Parcelable
+	val lat: Double? = null
+)

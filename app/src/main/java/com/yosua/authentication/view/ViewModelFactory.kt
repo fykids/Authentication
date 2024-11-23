@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.yosua.authentication.model.AppRepository
 import com.yosua.authentication.model.di.Injection
 import com.yosua.authentication.view.login.LoginViewModel
+import com.yosua.authentication.view.main.DashboardViewModel
 import com.yosua.authentication.view.register.RegisterViewModel
 import java.lang.IllegalArgumentException
 import kotlin.also
@@ -19,6 +20,8 @@ class ViewModelFactory private constructor(private val appRepository : AppReposi
             return RegisterViewModel(appRepository) as T
         } else if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             return LoginViewModel(appRepository) as T
+        } else if (modelClass.isAssignableFrom(DashboardViewModel::class.java)) {
+            return DashboardViewModel(appRepository) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

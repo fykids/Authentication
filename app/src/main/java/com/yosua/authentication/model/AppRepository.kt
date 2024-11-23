@@ -2,6 +2,7 @@ package com.yosua.authentication.model
 
 import com.yosua.authentication.model.pref.UserPreference
 import com.yosua.authentication.model.remote.network.ApiService
+import com.yosua.authentication.model.remote.response.AllStoryResponse
 import com.yosua.authentication.model.remote.response.LoginResponse
 import com.yosua.authentication.model.remote.response.LoginResult
 import com.yosua.authentication.model.remote.response.RegisterResponse
@@ -33,6 +34,15 @@ class AppRepository private constructor(
             Result.Success(response)
         } catch (e: Exception) {
             Result.Error(e.message?:"Error")
+        }
+    }
+
+    suspend fun getAllStories(): Result<AllStoryResponse> {
+        return try {
+            val response = apiService.getAllStories()
+            Result.Success(response)
+        } catch (e: Exception){
+            Result.Error(e.message ?: "Terjadi error")
         }
     }
 
