@@ -28,10 +28,10 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel.getSession().observe(this) { user ->
-            if (user.token.isNullOrEmpty()){
+            if (user.token.isEmpty()) {
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
-            }else {
+            } else {
                 viewModel.getSession()
             }
         }
@@ -62,7 +62,7 @@ class DashboardActivity : AppCompatActivity() {
                 }
 
                 is Result.Success -> {
-                    storyAdapter = StoryAdapter(result.data.listStory.filterNotNull()) {story ->
+                    storyAdapter = StoryAdapter(result.data.listStory.filterNotNull()) { story ->
                         onStoryClicked(story)
                     }
                     binding.rvStory.adapter = storyAdapter
@@ -75,7 +75,7 @@ class DashboardActivity : AppCompatActivity() {
         }
     }
 
-    private fun onStoryClicked(story: ListStoryItem){
+    private fun onStoryClicked(story : ListStoryItem) {
         val intent = Intent(this, DetailActivity::class.java).apply {
             putExtra("storyId", story.id)
         }

@@ -5,13 +5,10 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.yosua.authentication.databinding.ActivityDetailBinding
 import com.yosua.authentication.model.Result
-import com.yosua.authentication.model.di.Injection
 import com.yosua.authentication.view.ViewModelFactory
-import kotlinx.coroutines.launch
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding : ActivityDetailBinding
@@ -45,6 +42,7 @@ class DetailActivity : AppCompatActivity() {
                 is Result.Loading -> {
                     // Tampilkan loading jika sedang memuat data
                 }
+
                 is Result.Success -> {
                     val story = result.data.story
                     binding.tvPerson.text = story?.name
@@ -53,6 +51,7 @@ class DetailActivity : AppCompatActivity() {
                         .load(story?.photoUrl)
                         .into(binding.imageView)
                 }
+
                 is Result.Error -> {
                     Toast.makeText(this@DetailActivity, result.error, Toast.LENGTH_SHORT).show()
                 }

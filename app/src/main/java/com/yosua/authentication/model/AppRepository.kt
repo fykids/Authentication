@@ -8,8 +8,6 @@ import com.yosua.authentication.model.remote.response.LoginResponse
 import com.yosua.authentication.model.remote.response.LoginResult
 import com.yosua.authentication.model.remote.response.RegisterResponse
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
-import retrofit2.Response
 
 class AppRepository private constructor(
     private val apiService : ApiService,
@@ -31,31 +29,26 @@ class AppRepository private constructor(
 
     suspend fun login(
         email : String, password : String,
-    ): Result<LoginResponse> {
+    ) : Result<LoginResponse> {
         return try {
             val response = apiService.loginUser(email, password)
             Result.Success(response)
-        } catch (e: Exception) {
-            Result.Error(e.message?:"Error")
+        } catch (e : Exception) {
+            Result.Error(e.message ?: "Error")
         }
     }
 
-    suspend fun getAllStories(): Result<AllStoryResponse> {
+    suspend fun getAllStories() : Result<AllStoryResponse> {
         return try {
             val response = apiService.getAllStories()
             Result.Success(response)
-        } catch (e: Exception){
+        } catch (e : Exception) {
             Result.Error(e.message ?: "Terjadi error")
         }
     }
 
-    suspend fun getStories(storyId: String): Result<DetailResponse> {
+    suspend fun getStories(storyId : String) : Result<DetailResponse> {
         return try {
-            val token = userPref.getSession().first().token
-            if (token.isNullOrEmpty()) {
-                return Result.Error("Token tidak ditemukan. Harap login kembali.")
-            }
-
             // Memanggil API dengan header Bearer token
             val response = apiService.getStories(storyId)
 
@@ -72,7 +65,7 @@ class AppRepository private constructor(
                 // Menangani response gagal
                 Result.Error("Gagal memuat detail cerita: ${response.code()} - ${response.message()}")
             }
-        } catch (e: Exception) {
+        } catch (e : Exception) {
             // Menangani exception lainnya
             Result.Error("Terjadi kesalahan: ${e.message}")
         }
