@@ -49,17 +49,32 @@ class AppRepository private constructor(
         }
     }
 
-    suspend fun getStories(storyId: String): Result<DetailResponse>{
+    suspend fun getStories(storyId: String): Result<DetailResponse> {
         return try {
             val token = userPref.getSession().first().token
-            val response: Response<DetailResponse> = apiService.getStories(storyId, "Bearer $token")
-            if (response.isSuccessful) {
-                Result.Success(response.body()!!)
-            } else {
-                Result.Error("Gagal memuat detail cerita: ${response.message()}")
+            if (token.isNullOrEmpty()) {
+                return Result.Error("Token tidak ditemukan. Harap login kembali.")
             }
-        } catch (e: Exception){
-            Result.Error("Error: ${e.message}")
+
+            // Memanggil API dengan header Bearer token
+            val response = apiService.getStories(storyId)
+
+            // Mengecek apakah respons berhasil
+            if (response.isSuccessful) {
+                // Mengecek jika body response ada
+                val responseBody = response.body()
+                if (responseBody != null) {
+                    Result.Success(responseBody)
+                } else {
+                    Result.Error("Response body kosong")
+                }
+            } else {
+                // Menangani response gagal
+                Result.Error("Gagal memuat detail cerita: ${response.code()} - ${response.message()}")
+            }
+        } catch (e: Exception) {
+            // Menangani exception lainnya
+            Result.Error("Terjadi kesalahan: ${e.message}")
         }
     }
 

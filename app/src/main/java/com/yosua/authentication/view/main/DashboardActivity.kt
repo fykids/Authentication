@@ -28,9 +28,11 @@ class DashboardActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         viewModel.getSession().observe(this) { user ->
-            if (user.token == null){
+            if (user.token.isNullOrEmpty()){
                 startActivity(Intent(this, MainActivity::class.java))
                 finish()
+            }else {
+                viewModel.getSession()
             }
         }
 

@@ -3,22 +3,20 @@ package com.yosua.authentication.view.detail
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
-import com.yosua.authentication.R
 import com.yosua.authentication.databinding.ActivityDetailBinding
 import com.yosua.authentication.model.Result
+import com.yosua.authentication.model.di.Injection
 import com.yosua.authentication.view.ViewModelFactory
+import kotlinx.coroutines.launch
 
 class DetailActivity : AppCompatActivity() {
     private lateinit var binding : ActivityDetailBinding
 
-    private val viewModel : DetailViewModel by viewModels{
+    private val viewModel : DetailViewModel by viewModels {
         ViewModelFactory.getInstance(this)
     }
 
@@ -29,43 +27,47 @@ class DetailActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setTitle("Detail Story")
 
         val storyId = intent.getStringExtra("storyId")
+        if (storyId.isNullOrEmpty()) {
+            Toast.makeText(this, "ID cerita tidak valid", Toast.LENGTH_SHORT).show()
+            finish() // Tutup activity jika ID tidak valid
+            return
+        }
 
-        if (storyId != null) {
-            viewModel.getStory(storyId)
+        // Mengambil data melalui ViewModel
+        viewModel.getStory(storyId)
 
-            viewModel.detailStatus.observe(this, Observer { result ->
-                when (result) {
-                    is Result.Loading -> {
-
-                    }
-
-                    is Result.Success -> {
-                        val story = result.data.story
-                        binding.tvPerson.text = story.name
-                        binding.tvDescription.text = story.description
-                        Glide.with(this)
-                            .load(story.photoUrl)
-                            .into(binding.imageView)
-                    }
-
-                    is Result.Error -> {
-                        Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
-                    }
+        // Observasi perubahan data pada ViewModel
+        viewModel.detailStatus.observe(this) { result ->
+            when (result) {
+                is Result.Loading -> {
+                    // Tampilkan loading jika sedang memuat data
                 }
-            })
-        } else {
-            Toast.makeText(this, "Detail tidak tersedia", Toast.LENGTH_SHORT).show()
+                is Result.Success -> {
+                    val story = result.data.story
+                    binding.tvPerson.text = story?.name
+                    binding.tvDescription.text = story?.description
+                    Glide.with(this@DetailActivity)
+                        .load(story?.photoUrl)
+                        .into(binding.imageView)
+                }
+                is Result.Error -> {
+                    Toast.makeText(this@DetailActivity, result.error, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
     override fun onOptionsItemSelected(item : MenuItem) : Boolean {
-        return when(item.itemId){
+        return when (item.itemId) {
             android.R.id.home -> {
                 onBackPressed()
                 true
-            } else -> super.onOptionsItemSelected(item)
+            }
+
+            else -> super.onOptionsItemSelected(item)
         }
     }
 }

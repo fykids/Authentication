@@ -18,9 +18,6 @@
             android:name=".view.detail.DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".view.main.detail.DetailActivity"
-            android:exported="false" />
-        <activity
             android:name=".view.main.DashboardActivity"
             android:exported="true">
             <intent-filter>

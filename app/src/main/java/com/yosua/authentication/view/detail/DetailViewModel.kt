@@ -15,10 +15,13 @@ class DetailViewModel(private val appRepository : AppRepository) : ViewModel() {
 
     fun getStory(storyId : String) {
         _detailStatus.value = Result.Loading
-
-        viewModelScope.launch{
-            val result = appRepository.getStories(storyId)
-            _detailStatus.value = result
+        viewModelScope.launch {
+            try {
+                val response = appRepository.getStories(storyId)
+                _detailStatus.value = response
+            } catch (e : Exception) {
+                _detailStatus.value = Result.Error(e.message ?: "Terjadi Kesalahan")
+            }
         }
     }
 }
