@@ -12,6 +12,7 @@ import com.yosua.authentication.model.Result
 import com.yosua.authentication.view.ViewModelFactory
 import com.yosua.authentication.view.main.adapter.StoryAdapter
 
+@Suppress("SENSELESS_COMPARISON")
 class DashboardActivity : AppCompatActivity() {
     private lateinit var binding : ActivityDashboardBinding
     private lateinit var storyAdapter : StoryAdapter
