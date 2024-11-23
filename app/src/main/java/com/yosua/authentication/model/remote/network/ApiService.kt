@@ -28,7 +28,7 @@ interface ApiService {
     ) : LoginResponse
 
     @GET("stories")
-    suspend fun getAllStories() : AllStoryResponse
+    suspend fun getAllStories() : Response<AllStoryResponse>
 
     @GET("stories/{storyId}")
     suspend fun getStories(

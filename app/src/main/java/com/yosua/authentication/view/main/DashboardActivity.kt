@@ -2,11 +2,14 @@ package com.yosua.authentication.view.main
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yosua.authentication.MainActivity
+import com.yosua.authentication.R
 import com.yosua.authentication.databinding.ActivityDashboardBinding
 import com.yosua.authentication.model.Result
 import com.yosua.authentication.model.remote.response.ListStoryItem
@@ -26,6 +29,8 @@ class DashboardActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        setSupportActionBar(binding.toolbar)
 
         viewModel.getSession().observe(this) { user ->
             if (user.token.isEmpty()) {
@@ -80,5 +85,23 @@ class DashboardActivity : AppCompatActivity() {
             putExtra("storyId", story.id)
         }
         startActivity(intent)
+    }
+
+    override fun onCreateOptionsMenu(menu : Menu?) : Boolean {
+        menuInflater.inflate(R.menu.menu_setting, menu) // Memuat file menu_main.xml
+        return true
+    }
+
+    // Menangani klik menu
+    override fun onOptionsItemSelected(item : MenuItem) : Boolean {
+        when (item.itemId) {
+            R.id.action_settings -> {
+                // Menangani aksi klik Settings
+                viewModel.logout()
+                return true
+            }
+
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 }

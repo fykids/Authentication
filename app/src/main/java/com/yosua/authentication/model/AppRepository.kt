@@ -38,14 +38,21 @@ class AppRepository private constructor(
         }
     }
 
-    suspend fun getAllStories() : Result<AllStoryResponse> {
+    suspend fun getAllStories(): Result<AllStoryResponse> {
         return try {
             val response = apiService.getAllStories()
-            Result.Success(response)
-        } catch (e : Exception) {
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Result.Success(it)
+                } ?: Result.Error("Response body kosong")
+            } else {
+                Result.Error("Error: ${response.message()}")
+            }
+        } catch (e: Exception) {
             Result.Error(e.message ?: "Terjadi error")
         }
     }
+
 
     suspend fun getStories(storyId : String) : Result<DetailResponse> {
         return try {

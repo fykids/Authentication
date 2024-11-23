@@ -30,4 +30,10 @@ class DashboardViewModel(private val appRepository : AppRepository) : ViewModel(
     fun getSession(): LiveData<LoginResult>{
         return appRepository.getSession().asLiveData()
     }
+
+    fun logout() {
+        viewModelScope.launch{
+            appRepository.logout()
+        }
+    }
 }
