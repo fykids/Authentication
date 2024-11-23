@@ -6,6 +6,7 @@ import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
+import com.yosua.authentication.custom.EmailEditText
 import com.yosua.authentication.custom.MyEditText
 import com.yosua.authentication.databinding.ActivityRegisterBinding
 import com.yosua.authentication.model.Result
@@ -15,6 +16,7 @@ import com.yosua.authentication.view.login.LoginActivity
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding : ActivityRegisterBinding
 
+    private lateinit var emailEditText : EmailEditText
     private lateinit var myEditText : MyEditText
 
     private val viewModel : RegisterViewModel by viewModels {
@@ -27,10 +29,11 @@ class RegisterActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         myEditText = binding.passwordEditText
+        emailEditText = binding.emailEditText
 
         binding.signupButton.setOnClickListener {
             val name = binding.nameEditText.text.toString()
-            val email = binding.emailEditText.text.toString()
+            val email = emailEditText.text.toString()
             val password = myEditText.text.toString()
 
             registerUser(name, email, password)
