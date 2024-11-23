@@ -2,12 +2,15 @@ package com.yosua.authentication.model
 
 import com.yosua.authentication.model.pref.UserPreference
 import com.yosua.authentication.model.remote.network.ApiService
+import com.yosua.authentication.model.remote.response.AddStoryResponse
 import com.yosua.authentication.model.remote.response.AllStoryResponse
 import com.yosua.authentication.model.remote.response.DetailResponse
 import com.yosua.authentication.model.remote.response.LoginResponse
 import com.yosua.authentication.model.remote.response.LoginResult
 import com.yosua.authentication.model.remote.response.RegisterResponse
 import kotlinx.coroutines.flow.Flow
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
 class AppRepository private constructor(
     private val apiService : ApiService,
@@ -38,7 +41,7 @@ class AppRepository private constructor(
         }
     }
 
-    suspend fun getAllStories(): Result<AllStoryResponse> {
+    suspend fun getAllStories() : Result<AllStoryResponse> {
         return try {
             val response = apiService.getAllStories()
             if (response.isSuccessful) {
@@ -48,11 +51,10 @@ class AppRepository private constructor(
             } else {
                 Result.Error("Error: ${response.message()}")
             }
-        } catch (e: Exception) {
+        } catch (e : Exception) {
             Result.Error(e.message ?: "Terjadi error")
         }
     }
-
 
     suspend fun getStories(storyId : String) : Result<DetailResponse> {
         return try {
@@ -74,6 +76,27 @@ class AppRepository private constructor(
             }
         } catch (e : Exception) {
             // Menangani exception lainnya
+            Result.Error("Terjadi kesalahan: ${e.message}")
+        }
+    }
+
+    suspend fun uploadImage(
+        filePart : MultipartBody.Part,
+        descriptionBody : RequestBody,
+    ) : Result<AddStoryResponse> {
+        return try {
+            val response = apiService.uploadImage(filePart, descriptionBody)
+            if (response.isSuccessful) {
+                val responseBody = response.body()
+                if (responseBody != null) {
+                    Result.Success(responseBody)
+                } else {
+                    Result.Error("Response body kosong")
+                }
+            } else {
+                Result.Error("Gagal mengirim data: ${response.code()} - ${response.message()}")
+            }
+        } catch (e : Exception) {
             Result.Error("Terjadi kesalahan: ${e.message}")
         }
     }

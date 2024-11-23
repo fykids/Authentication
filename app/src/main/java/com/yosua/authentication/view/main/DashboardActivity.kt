@@ -16,6 +16,7 @@ import com.yosua.authentication.model.remote.response.ListStoryItem
 import com.yosua.authentication.view.ViewModelFactory
 import com.yosua.authentication.view.detail.DetailActivity
 import com.yosua.authentication.view.main.adapter.StoryAdapter
+import com.yosua.authentication.view.post.PostStoryActivity
 
 @Suppress("SENSELESS_COMPARISON")
 class DashboardActivity : AppCompatActivity() {
@@ -45,6 +46,9 @@ class DashboardActivity : AppCompatActivity() {
         observeData()
 
         viewModel.getAllStories()
+        binding.floatingActionButton.setOnClickListener{
+            startActivity(Intent(this, PostStoryActivity::class.java))
+        }
     }
 
     private fun setupRecyclerView() {
