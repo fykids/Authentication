@@ -9,6 +9,7 @@ import com.yosua.authentication.model.remote.response.LoginResponse
 import com.yosua.authentication.model.remote.response.LoginResult
 import com.yosua.authentication.model.remote.response.RegisterResponse
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.take
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 

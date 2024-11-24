@@ -49,7 +49,7 @@ class DetailActivity : AppCompatActivity() {
                     binding.tvPerson.text = story.name
                     binding.tvDescription.text = story.description
                     Glide.with(this@DetailActivity)
-                        .load(story?.photoUrl)
+                        .load(story.photoUrl)
                         .into(binding.imageView)
                 }
 
