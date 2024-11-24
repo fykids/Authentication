@@ -31,7 +31,6 @@ class LoginActivity : AppCompatActivity() {
         binding.loginButton.setOnClickListener {
             val email = binding.emailEditText.text.toString()
             val password = myEditText.text.toString()
-
             loginUser(email, password)
         }
 
@@ -44,6 +43,7 @@ class LoginActivity : AppCompatActivity() {
                 is Result.Success -> {
                     Toast.makeText(this@LoginActivity, result.data.message, Toast.LENGTH_SHORT)
                         .show()
+                    viewModel.saveSession(result.data.loginResult)
                     /*
                      Disini implementasi success login,
                      ketika berhasil jangan lupa atur backpress agar ketika tombol back ditekan

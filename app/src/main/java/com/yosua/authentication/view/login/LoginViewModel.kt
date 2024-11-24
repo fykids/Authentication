@@ -26,9 +26,6 @@ class LoginViewModel(private val appRepository : AppRepository) : ViewModel() {
             _loginStatus.value = Result.Loading
             try {
                 val response = appRepository.login(email, password)
-                if (response is Result.Success) {
-                    saveSession(response.data.loginResult)
-                }
                 _loginStatus.value = response
 
             } catch (e : HttpException) {
