@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -52,6 +53,11 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(libs.androidx.paging.runtime.ktx)
+
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.room.compiler)
 
     implementation("com.squareup.retrofit2:retrofit:$retrofitVersion")
     implementation("com.google.code.gson:gson:$retrofitVersion")

@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import com.yosua.authentication.custom.MyEditText
 import com.yosua.authentication.databinding.ActivityLoginBinding
 import com.yosua.authentication.model.Result
+import com.yosua.authentication.model.di.Injection
 import com.yosua.authentication.view.ViewModelFactory
 import com.yosua.authentication.view.main.DashboardActivity
 
@@ -41,9 +42,9 @@ class LoginActivity : AppCompatActivity() {
                 }
 
                 is Result.Success -> {
+                    viewModel.saveSession(result.data.loginResult)
                     Toast.makeText(this@LoginActivity, result.data.message, Toast.LENGTH_SHORT)
                         .show()
-                    viewModel.saveSession(result.data.loginResult)
                     /*
                      Disini implementasi success login,
                      ketika berhasil jangan lupa atur backpress agar ketika tombol back ditekan

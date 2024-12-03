@@ -4,19 +4,20 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.yosua.authentication.MainActivity
 import com.yosua.authentication.R
 import com.yosua.authentication.databinding.ActivityDashboardBinding
-import com.yosua.authentication.model.Result
 import com.yosua.authentication.model.remote.response.ListStoryItem
 import com.yosua.authentication.view.ViewModelFactory
 import com.yosua.authentication.view.detail.DetailActivity
 import com.yosua.authentication.view.main.adapter.StoryAdapter
 import com.yosua.authentication.view.post.PostStoryActivity
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @Suppress("SENSELESS_COMPARISON")
 class DashboardActivity : AppCompatActivity() {
@@ -45,14 +46,14 @@ class DashboardActivity : AppCompatActivity() {
         setupRecyclerView()
         observeData()
 
-        viewModel.getAllStories()
-        binding.floatingActionButton.setOnClickListener{
+//        viewModel.getAllStories()
+        binding.floatingActionButton.setOnClickListener {
             startActivity(Intent(this, PostStoryActivity::class.java))
         }
     }
 
     private fun setupRecyclerView() {
-        storyAdapter = StoryAdapter(emptyList()) { story ->
+        storyAdapter = StoryAdapter() { story ->
             onStoryClicked(story)
         }
 
@@ -64,22 +65,27 @@ class DashboardActivity : AppCompatActivity() {
     }
 
     private fun observeData() {
-        viewModel.stories.observe(this) { result ->
-            when (result) {
-                is Result.Loading -> {
-
-                }
-
-                is Result.Success -> {
-                    storyAdapter = StoryAdapter(result.data.listStory.filterNotNull()) { story ->
-                        onStoryClicked(story)
-                    }
-                    binding.rvStory.adapter = storyAdapter
-                }
-
-                is Result.Error -> {
-                    Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
-                }
+//        viewModel.stories.observe(this) { result ->
+//            when (result) {
+//                is Result.Loading -> {
+//
+//                }
+//
+//                is Result.Success -> {
+//                    storyAdapter = StoryAdapter(result.data.listStory.filterNotNull()) { story ->
+//                        onStoryClicked(story)
+//                    }
+//                    binding.rvStory.adapter = storyAdapter
+//                }
+//
+//                is Result.Error -> {
+//                    Toast.makeText(this, result.error, Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//        }
+        lifecycleScope.launch{
+            viewModel.stories.collectLatest { pagingData ->
+                storyAdapter.submitData(pagingData)
             }
         }
     }

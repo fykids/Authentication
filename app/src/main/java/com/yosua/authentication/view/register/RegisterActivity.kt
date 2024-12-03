@@ -30,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
 
         binding.signupButton.setOnClickListener {
             val name = binding.nameEditText.text.toString()
-            val email = binding.emailEditText.toString()
+            val email = binding.emailEditText.text.toString()
             val password = myEditText.text.toString()
 
             registerUser(name, email, password)

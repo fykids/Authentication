@@ -4,7 +4,9 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.yosua.authentication.model.AppRepository
+import com.yosua.authentication.model.StoryRepository
 import com.yosua.authentication.model.di.Injection
+import com.yosua.authentication.model.di.InjectionPaging
 import com.yosua.authentication.view.detail.DetailViewModel
 import com.yosua.authentication.view.login.LoginViewModel
 import com.yosua.authentication.view.main.DashboardViewModel
@@ -14,7 +16,7 @@ import java.lang.IllegalArgumentException
 import kotlin.also
 import kotlin.jvm.java
 
-class ViewModelFactory private constructor(private val appRepository : AppRepository) :
+class ViewModelFactory private constructor(private val appRepository : AppRepository, private val storyRepository : StoryRepository) :
     ViewModelProvider.NewInstanceFactory() {
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass : Class<T>) : T {
@@ -23,7 +25,7 @@ class ViewModelFactory private constructor(private val appRepository : AppReposi
         } else if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
             return LoginViewModel(appRepository) as T
         } else if (modelClass.isAssignableFrom(DashboardViewModel::class.java)) {
-            return DashboardViewModel(appRepository) as T
+            return DashboardViewModel(appRepository, storyRepository) as T
         } else if (modelClass.isAssignableFrom(DetailViewModel::class.java)) {
             return DetailViewModel(appRepository) as T
         } else if (modelClass.isAssignableFrom(PostStoryViewModel::class.java)){
@@ -38,7 +40,7 @@ class ViewModelFactory private constructor(private val appRepository : AppReposi
         private var instance : ViewModelFactory? = null
         fun getInstance(context : Context) : ViewModelFactory =
             instance ?: synchronized(this) {
-                instance ?: ViewModelFactory(Injection.provide(context))
+                instance ?: ViewModelFactory(Injection.provide(context), InjectionPaging.provideRepository(context))
             }.also { instance = it }
     }
 }
