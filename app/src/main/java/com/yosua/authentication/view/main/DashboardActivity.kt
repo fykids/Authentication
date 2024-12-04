@@ -83,7 +83,7 @@ class DashboardActivity : AppCompatActivity() {
 //                }
 //            }
 //        }
-        lifecycleScope.launch{
+        lifecycleScope.launch {
             viewModel.stories.collectLatest { pagingData ->
                 storyAdapter.submitData(pagingData)
             }
@@ -108,6 +108,11 @@ class DashboardActivity : AppCompatActivity() {
             R.id.action_settings -> {
                 // Menangani aksi klik Settings
                 viewModel.logout()
+                return true
+            }
+
+            R.id.action_maps -> {
+                startActivity(Intent(this, MapsActivity::class.java))
                 return true
             }
 

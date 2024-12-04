@@ -14,7 +14,6 @@ import okhttp3.RequestBody
 
 class PostStoryViewModel(private val appRepository : AppRepository) : ViewModel() {
     private val _currentImageUri = MutableLiveData<Uri?>()
-    val currentImageUri : LiveData<Uri?> get() = _currentImageUri
 
     private val _uploadStatus = MutableLiveData<Result<AddStoryResponse>>()
     val uploadStatus : LiveData<Result<AddStoryResponse>> get() = _uploadStatus

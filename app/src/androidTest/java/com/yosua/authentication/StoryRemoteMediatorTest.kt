@@ -91,23 +91,23 @@ class FakeApiService : ApiService {
         )
     }
 
-    override suspend fun getAllStories() : Response<AllStoryResponse> {
-        val dummyStoryList = ListStoryItem(
-            "https://example.com/photo.jpg",
-            "2024-01-01T00:00:00Z",
-            "Story Title",
-            "Story Description",
-            5.0,
-            "Story Id",
-            10.0
-        )
-        val allStoryResponse = AllStoryResponse(
-            error = false,
-            message = "Stories fetched successfully",
-            listStory = listOf(dummyStoryList)
-        )
-        return Response.success(allStoryResponse)
-    }
+//    override suspend fun getAllStories() : Response<AllStoryResponse> {
+//        val dummyStoryList = ListStoryItem(
+//            "https://example.com/photo.jpg",
+//            "2024-01-01T00:00:00Z",
+//            "Story Title",
+//            "Story Description",
+//            5.0,
+//            "Story Id",
+//            10.0
+//        )
+//        val allStoryResponse = AllStoryResponse(
+//            error = false,
+//            message = "Stories fetched successfully",
+//            listStory = listOf(dummyStoryList)
+//        )
+//        return Response.success(allStoryResponse)
+//    }
 
     override suspend fun getStories(storyId : String) : Response<DetailResponse> {
         val detailResponse = DetailResponse(
@@ -156,6 +156,26 @@ class FakeApiService : ApiService {
             message = "Stories fetched successfully",
             listStory = listOf(dummyStoryList)
         )
+    }
+
+    override suspend fun getStoriesWithLocation(location : Int) : Response<AllStoryResponse> {
+        val dummyStoryList = ListStoryItem(
+            "https://example.com/photo.jpg",
+            "2024-01-01T00:00:00Z",
+            "Story Title",
+            "Story Description",
+            5.0,
+            "Story Id",
+            10.0
+        )
+
+        val allStoryResponse = AllStoryResponse(
+            error = false,
+            message = "Stories fetched successfully",
+            listStory = listOf(dummyStoryList)
+        )
+
+        return Response.success(allStoryResponse)
     }
 
 }

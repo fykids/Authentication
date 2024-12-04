@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     id("kotlin-parcelize")
     id("com.google.devtools.ksp")
+    alias(libs.plugins.google.android.libraries.mapsplatform.secrets.gradle.plugin)
 }
 
 android {
@@ -44,6 +45,7 @@ android {
 
 dependencies {
 
+    implementation(libs.play.services.maps)
     val retrofitVersion = "2.11.0"
 
     implementation(libs.androidx.core.ktx)

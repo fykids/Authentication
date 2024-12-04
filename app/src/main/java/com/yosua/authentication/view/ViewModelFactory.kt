@@ -12,6 +12,7 @@ import com.yosua.authentication.view.login.LoginViewModel
 import com.yosua.authentication.view.main.DashboardViewModel
 import com.yosua.authentication.view.post.PostStoryViewModel
 import com.yosua.authentication.view.register.RegisterViewModel
+import com.yosua.authentication.viewmodel.MapsViewModel
 import java.lang.IllegalArgumentException
 import kotlin.also
 import kotlin.jvm.java
@@ -30,6 +31,8 @@ class ViewModelFactory private constructor(private val appRepository : AppReposi
             return DetailViewModel(appRepository) as T
         } else if (modelClass.isAssignableFrom(PostStoryViewModel::class.java)){
             return PostStoryViewModel(appRepository) as T
+        } else if (modelClass.isAssignableFrom(MapsViewModel::class.java)) {
+            return MapsViewModel(appRepository) as T
         }
 
         throw IllegalArgumentException("Unknown ViewModel class: " + modelClass.name)

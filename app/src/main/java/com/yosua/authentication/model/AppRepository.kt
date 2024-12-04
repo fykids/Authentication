@@ -56,6 +56,21 @@ class AppRepository private constructor(
 //        }
 //    }
 
+    suspend fun getStoriesWithLocation(location: Int) : Result<AllStoryResponse> {
+        return try {
+            val response = apiService.getStoriesWithLocation(location)
+            if (response.isSuccessful) {
+                response.body()?.let {
+                    Result.Success(it)
+                } ?: Result.Error("Response body kosong")
+            } else {
+                Result.Error("Error: ${response.message()}")
+            }
+        } catch (e: Exception) {
+            Result.Error(e.message ?: "Terjadi error")
+        }
+    }
+
     suspend fun getStories(storyId : String) : Result<DetailResponse> {
         return try {
             // Memanggil API dengan header Bearer token
