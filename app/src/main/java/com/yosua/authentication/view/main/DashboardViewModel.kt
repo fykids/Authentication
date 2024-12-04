@@ -1,16 +1,13 @@
 package com.yosua.authentication.view.main
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.yosua.authentication.model.AppRepository
 import com.yosua.authentication.model.StoryRepository
-import com.yosua.authentication.model.di.InjectionPaging
 import com.yosua.authentication.model.remote.response.ListStoryItem
 import com.yosua.authentication.model.remote.response.LoginResult
 import kotlinx.coroutines.flow.Flow
