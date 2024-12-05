@@ -46,6 +46,8 @@ android {
 dependencies {
 
     implementation(libs.play.services.maps)
+    implementation("com.google.android.gms:play-services-location:21.0.1")
+
     val retrofitVersion = "2.11.0"
 
     implementation(libs.androidx.core.ktx)
