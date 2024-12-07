@@ -19,6 +19,7 @@ import com.yosua.authentication.model.remote.response.ListStoryItem
 import com.yosua.authentication.view.main.DashboardViewModel
 import com.yosua.authentication.view.main.adapter.StoryAdapter
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Rule
@@ -28,6 +29,7 @@ import org.mockito.Mock
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 
+@ExperimentalCoroutinesApi
 @ExperimentalStdlibApi
 @RunWith(MockitoJUnitRunner::class)
 class DashboardViewModelTest {

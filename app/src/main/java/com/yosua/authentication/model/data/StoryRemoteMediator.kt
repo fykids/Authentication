@@ -9,7 +9,6 @@ import com.yosua.authentication.model.database.RemoteKeys
 import com.yosua.authentication.model.database.StoryDatabase
 import com.yosua.authentication.model.remote.network.ApiService
 import com.yosua.authentication.model.remote.response.ListStoryItem
-import kotlinx.coroutines.flow.Flow
 
 @OptIn(ExperimentalPagingApi::class)
 class StoryRemoteMediator(
@@ -43,7 +42,7 @@ class StoryRemoteMediator(
         }
 
         try {
-            val responseData = apiService.getStoriesPaging(page as Int, state.config.pageSize)
+            val responseData = apiService.getStoriesPaging(page, state.config.pageSize)
 
             val endPaginationReached = responseData.listStory.isEmpty()
 
